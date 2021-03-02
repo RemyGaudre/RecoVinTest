@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <title>Welcome Page</title>
+    </head>
+    <body>
+        <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+        <h2>This is the welcome page.</h2>
+		
+		<td>
+    		<span th:if="${user.getRoles() == 'ROLE_ADMIN'}">
+    		
+    		<!--- CONTENT FOR ADMIN --->
+    		
+    		<h3>You are an admin.</h3>
+    		
+    		
+    		<table>
+    			<thead class="ttop">
+        			<tr class="table-info">
+            			<td width="20px"><b> ID</b></td>
+            			<td><b>winetypeid</b> </td>
+            			<td><b>winetypename</b> </td>
+            			<td><b>producerid</b> </td>
+            			<td><b>producername</b> </td>
+            			<td><b>address</b> </td>
+            			<td><b>city</b> </td>
+            			<td><b>postalcode</b> </td>
+            			<td><b>country</b> </td>
+            			<td><b>website</b> </td>
+            			<td><b>phone</b> </td>
+            			<td><b>email</b> </td>
+            			<td><b>year</b> </td>
+        			</tr>
+    			</thead>
+    			<tbody>
+        			<tr th:each="wine : ${wines}">
+             
+            			<td width="20px" th:text="${wine.wineid}">
+            			</td><td th:text="${wine.winetype.getWinetypeid()}">
+            			</td><td th:text="${wine.winetype.getWinetypename()}">
+            			</td><td th:text="${wine.producer.getProducerid()}">
+            			</td><td th:text="${wine.producer.getProducername()}">
+            			</td><td th:text="${wine.producer.getAddress()}">
+            			</td><td th:text="${wine.producer.getCity()}">
+            			</td><td th:text="${wine.producer.getPostalcode()}">
+            			</td><td th:text="${wine.producer.getCountry()}">
+            			</td><td th:text="${wine.producer.getWebsite()}">
+            			</td><td th:text="${wine.producer.getPhone()}">
+            			</td><td th:text="${wine.producer.getEmail()}">
+            			</td><td th:text="${wine.year_production}">
+       				</td></tr>
+     			</tbody>
+    		</table>
+    		
+    		
+    		
+    		</span>
+    		
+    		
+    		<span th:unless="${user.getRoles() == 'ROLE_ADMIN'}">
+			
+			<!--- CONTENT FOR SIMPLE USER --->
+    		
+    		<h3>You are a simple User. You don't have access to the database.</h3>
+    		
+    		
+    		
+    		
+    		</span>
+		</td>
+		
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
+    </body>
+</html>
